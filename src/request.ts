@@ -21,23 +21,25 @@ module Request {
         this.client_id = client_id;
         this.token = token;
         this.fail_function = fail_function;
+        console.log("Wat?", this.client_id);
+        
     }
 
-    function make_request( url : string, req_type : string, data : any, callback:Function ) : any {
+    export function make_request( url : string, req_type : string, data : any, callback:Function ) : any {
         console.log("Requesting....");
         console.log(url);
         
         let xhttp =  new XMLHttpRequest();
+        xhttp.open(req_type, url, true);
         xhttp.setRequestHeader('X-Client-ID', this.client_id);
         xhttp.setRequestHeader('X-Access-Token', this.token);
         if(data)
         {
             xhttp.setRequestHeader('Content-type', "application/json");
         }
-        xhttp.open(req_type, url, true);
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4 ) {
-                if(xhttp.status != 401 || xhttp.status != 404 || xhttp.status != 400)
+                if(xhttp.status != 401 && xhttp.status != 404 && xhttp.status != 400)
                 {
                     console.log("Response OK!");
                     callback(xhttp.response);
@@ -57,13 +59,13 @@ module Request {
     }
 
     export function request( url : string, req_type : string, params:any , callback : Function ) {
-        let final_url = this.base_url + url + '?access_token=' + this.token;
+        let final_url = this.base_url + url;
         if(req_type == 'GET')
             for(var key in params)
             {   
                 final_url += "&" + key + "=" + params[key];
             }
-        make_request( final_url, req_type, params, function(response) {
+        Request.make_request( final_url, req_type, params, function(response) {
                 response = JSON.parse(response);
                 callback(response);
         });
