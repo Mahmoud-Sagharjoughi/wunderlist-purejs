@@ -66,3 +66,39 @@ var Request;
         console.log(response.error);
     }
 })(Request || (Request = {}));
+/*
+ * This file is created by: Sina Bakhtiari <sinabakh44@live.com>
+ *      and is modified by:
+*/
+//
+// ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────── I ──────────
+//   :::::: I N S T A G R A M   A C C E S S A B L E   H I G H L E V E L   M E T H O D S : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+//
+/// <reference path="./request.ts"/>
+var Wunderlist;
+(function (Wunderlist) {
+    Wunderlist.client_id = undefined;
+    Wunderlist.redirect_uri = undefined;
+    Wunderlist.token = undefined;
+    Wunderlist.base_url = 'http://a.wunderlist.com/api/v1/';
+    function init(client_id, redirect_uri) {
+        this.client_id = client_id;
+        this.redirect_uri = redirect_uri;
+    }
+    Wunderlist.init = init;
+    //
+    // ─── AUTHENTICATION METHODS ─────────────────────────────────────────────────────
+    //
+    function get_auth_url() {
+        return 'https://www.wunderlist.com/oauth/authorize/?client_id=' + this.client_id
+            + '&redirect_uri=' + this.redirect_uri +
+            "&state=random";
+    }
+    Wunderlist.get_auth_url = get_auth_url;
+    function set_token(token) {
+        this.token = token;
+        this.request = Request.init(this.base_url, this.client_id, this.token, function () { });
+    }
+    Wunderlist.set_token = set_token;
+})(Wunderlist || (Wunderlist = {}));
