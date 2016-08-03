@@ -18,26 +18,28 @@ var Request;
         this.client_id = client_id;
         this.token = token;
         this.fail_function = fail_function;
+        console.log("Wat?", this.client_id);
     }
     Request.init = init;
     function make_request(url, req_type, data, callback) {
         console.log("Requesting....");
         console.log(url);
         var xhttp = new XMLHttpRequest();
+        xhttp.open(req_type, url, true);
         xhttp.setRequestHeader('X-Client-ID', this.client_id);
         xhttp.setRequestHeader('X-Access-Token', this.token);
         if (data) {
             xhttp.setRequestHeader('Content-type', "application/json");
         }
-        xhttp.open(req_type, url, true);
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState == 4) {
-                if (xhttp.status != 401 || xhttp.status != 404 || xhttp.status != 400) {
+                if (xhttp.status != 401 && xhttp.status != 404 && xhttp.status != 400) {
                     console.log("Response OK!");
                     callback(xhttp.response);
                 }
                 else {
                     console.log("Response Not OK!");
+                    console.log(xhttp.response);
                     // FIXME
                     failure(xhttp.response);
                 }
@@ -48,13 +50,14 @@ var Request;
         else
             xhttp.send(null);
     }
+    Request.make_request = make_request;
     function request(url, req_type, params, callback) {
-        var final_url = this.base_url + url + '?access_token=' + this.token;
+        var final_url = this.base_url + url;
         if (req_type == 'GET')
             for (var key in params) {
                 final_url += "&" + key + "=" + params[key];
             }
-        make_request(final_url, req_type, params, function (response) {
+        Request.make_request(final_url, req_type, params, function (response) {
             response = JSON.parse(response);
             callback(response);
         });
@@ -101,4 +104,28 @@ var Wunderlist;
         this.request = Request.init(this.base_url, this.client_id, this.token, function () { });
     }
     Wunderlist.set_token = set_token;
+})(Wunderlist || (Wunderlist = {}));
+/*
+ * This file is created by: Sina Bakhtiari <sinabakh44@live.com>
+ *      and is modified by:
+*/
+//
+// ──────────────────────────────────────────────────────────────────────────────────────────────── I ──────────
+//   :::::: U S E R S   A P I   E N D P O I N T S   W R A P P E R S : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+//
+/// <reference path="./wunderlist.ts"/>
+/// <reference path="./request.ts"/>
+var Wunderlist;
+(function (Wunderlist) {
+    var Users;
+    (function (Users) {
+        function self(callback) {
+            var url = 'user';
+            Request.request(url, "GET", null, function (data) {
+                callback(data);
+            });
+        }
+        Users.self = self;
+    })(Users = Wunderlist.Users || (Wunderlist.Users = {}));
 })(Wunderlist || (Wunderlist = {}));
