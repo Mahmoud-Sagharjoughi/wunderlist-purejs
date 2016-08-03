@@ -39,7 +39,6 @@ var Request;
                 }
                 else {
                     console.log("Response Not OK!");
-                    console.log(xhttp.response);
                     // FIXME
                     failure(xhttp.response);
                 }
