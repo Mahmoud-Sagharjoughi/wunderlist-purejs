@@ -43,6 +43,9 @@ var Request;
                     failure(xhttp.response);
                 }
             }
+            else {
+                console.log("ridi");
+            }
         };
         if (data)
             xhttp.send(data);
@@ -103,6 +106,30 @@ var Wunderlist;
         this.request = Request.init(this.base_url, this.client_id, this.token, function () { });
     }
     Wunderlist.set_token = set_token;
+})(Wunderlist || (Wunderlist = {}));
+/*
+ * This file is created by: Mahmoud Sagharjoughi <mahmood.sa225@gmail.com>
+ *      and is modified by:
+*/
+//
+// ──────────────────────────────────────────────────────────────────────────────────────────────── I ──────────
+//   :::::: L I S T S   A P I   E N D P O I N T S   W R A P P E R S : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+//
+/// <reference path="./wunderlist.ts"/>
+/// <reference path="./request.ts"/>
+var Wunderlist;
+(function (Wunderlist) {
+    var Lists;
+    (function (Lists) {
+        function get_all_lists(callback) {
+            var url = 'lists';
+            Request.request(url, "GET", null, function (data) {
+                callback(data);
+            });
+        }
+        Lists.get_all_lists = get_all_lists;
+    })(Lists = Wunderlist.Lists || (Wunderlist.Lists = {}));
 })(Wunderlist || (Wunderlist = {}));
 /*
  * This file is created by: Sina Bakhtiari <sinabakh44@live.com>
