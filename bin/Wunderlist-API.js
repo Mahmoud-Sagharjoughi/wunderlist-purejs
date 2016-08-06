@@ -126,13 +126,13 @@ var Wunderlist;
             });
         }
         Lists.get_all_lists = get_all_lists;
-        function get_specific_list(callback) {
-            var url = 'lists/' + 20684112;
+        function get_list(list_id, callback) {
+            var url = 'lists/' + list_id;
             Request.request(url, "GET", null, function (data) {
                 callback(data);
             });
         }
-        Lists.get_specific_list = get_specific_list;
+        Lists.get_list = get_list;
     })(Lists = Wunderlist.Lists || (Wunderlist.Lists = {}));
 })(Wunderlist || (Wunderlist = {}));
 /*
