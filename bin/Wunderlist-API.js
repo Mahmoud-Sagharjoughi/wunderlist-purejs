@@ -43,9 +43,6 @@ var Request;
                     failure(xhttp.response);
                 }
             }
-            else {
-                console.log("ridi");
-            }
         };
         if (data)
             xhttp.send(data);
