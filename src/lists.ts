@@ -20,4 +20,11 @@ module Wunderlist.Lists {
             callback(data);
         });
     }
+
+    export function get_specific_list(callback:Function) {
+        let url = 'lists/' + 20684112; //test id!
+        Request.request(url, "GET", null, function(data){
+            callback(data);
+        });
+    }
 }
